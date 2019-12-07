@@ -1,0 +1,57 @@
+svg {
+    overflow: inherit;
+}
+
+#layOut {
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+
+.sidebar {
+    grid-column: 2;
+    background: red;
+    height: 67em;
+    padding: 3em;
+}
+
+
+.legenda {
+    padding: 5em 0 0 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    width: max-content;
+}
+
+.legenda > div {
+    width: 8em;
+    height: 4em;
+    text-align: center;
+    line-height: 4;
+    margin: 0 0.5em;
+}
+
+.legenda > div > span {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 3px;
+}
+
+.legenda > div:nth-of-type(1) {
+    background: #c74032;
+}
+.legenda > div:nth-of-type(2) {
+    background: #e4744f;
+}
+.legenda > div:nth-of-type(3) {
+    background: #fae096;
+}
+.legenda > div:nth-of-type(4) {
+    background: #b1d678;
+}
+.legenda > div:nth-of-type(5) {
+    background: #489558;
+}
+
+.link {
+    stroke: red;
+}
