@@ -29,13 +29,13 @@ export function mapData(url, query) {
 }
 
 export async function createDataSet(url, query) {
-	let dataset = [{ objects: [] }];
+	let dataset = [];
 
 	await mapData(url, query)
 		.then(
 			data => {
-				if (dataset[0]['objects'].length == 0) {
-					dataset[0]['objects'].push(data)
+				if (dataset == 0) {
+					dataset.push(data)
 					getChildren(data)
 				}
 			}
@@ -43,9 +43,6 @@ export async function createDataSet(url, query) {
 
 	return dataset;
 }
-
-
-
 
 function getChildren(data) {
 	data.map(item => {
@@ -67,15 +64,6 @@ function getChildren(data) {
 		}
 	})
 }
-
-
-
-
-
-
-
-
-
 
 
 
