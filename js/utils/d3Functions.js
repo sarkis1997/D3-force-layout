@@ -5,58 +5,92 @@ import { makeQuery, URI, url_NMVW07 } from "./queries.js";
 export async function createFramework() {
 	let data = await createDataSet(url_NMVW07, makeQuery(URI));
 	let dataComplete = [{geoName: 'startPoint', children: data}][0];
+	let width = 800;
+	let height = 500;
 
 	let nodes = [dataComplete];
 	dataComplete.children[0].map(item => { nodes.push((item)) });
+	let links = [];
+	console.log(nodes);
 
-	let links = [
-		{ source: "startPoint", target: "Oceanen" },
-		{ source: "startPoint", target: "Antarctica" },
-		{ source: "startPoint", target: "Eurazië" },
-		{ source: "startPoint", target: "Amerika" },
-		{ source: "startPoint", target: "Azië" },
-		{ source: "startPoint", target: "Afrika" },
-		{ source: "startPoint", target: "Oceanië" }
-	];
 
-	console.log(nodes)
-	console.log(links)
-
-	let width = 800;
-	let height = 500;
+	let simulation = d3.forceSimulation()
+		.force("charge", d3.forceManyBody().strength(-30))
+		.force("link", d3.forceLink(links).id(function(d) { return d.geoName }).distance(100))
+		.force("center", d3.forceCenter(width / 2, height / 2))
+		.force("x", d3.forceX())
+		.force("y", d3.forceY())
+		.alphaTarget(1)
+		.on("tick", ticked);
 
 	let svg = d3.select('svg')
 		.attr('width', width)
 		.attr('height', height)
 		.attr('class', 'frame');
 
-	let simulation = d3.forceSimulation()
-		.nodes(nodes)
-		.force("link", d3.forceLink(links).id(function(d) {
-			console.log(d.geoName); return d.geoName }))
-		.force("charge", d3.forceManyBody())
-		.force("center", d3.forceCenter(width / 2, height / 2))
-		.on("tick", ticked);
-
 	let link = svg
 		.append('g')
 		.attr('class', 'linkGroup')
-		.selectAll('line')
-		.data(links)
-		.enter()
-		.append('line')
-		.attr('stroke-width', '3')
-		.style('stroke', 'red');
+		.attr("stroke", "#000").attr("stroke-width", 1.5)
+		.selectAll('.link');
 
 	let node = svg
 		.append('g')
 		.attr('class', 'nodeGroup')
-		.selectAll('circle')
-		.data(nodes)
-		.enter()
-		.append('circle')
-		.attr('r', 5)
-		.attr('fill', 'green');
+		.selectAll('.node');
+
+	restart();
+
+	function restart() {
+		links.push(
+			{ source: "startPoint", target: "Oceanen" },
+			{ source: "startPoint", target: "Antarctica" },
+			{ source: "startPoint", target: "Eurazië" },
+			{ source: "startPoint", target: "Amerika" },
+			{ source: "startPoint", target: "Azië" },
+			{ source: "startPoint", target: "Afrika" },
+			{ source: "startPoint", target: "Oceanië" }
+		);
+
+		node = node.data(nodes, function(d) { return d.geoName });
+		node.exit().remove();
+		node = node.enter().append('circle')
+			.attr('r', function(d) {
+				if (d.geoName === 'startPoint') { return 5 }
+				else { return 10 }
+			})
+			.attr('fill', 'orange')
+			.on('click', function(d) {
+				if (d.geoName === 'startPoint') { return }
+				else { addChildrenNodes(d) }
+			})
+			.merge(node);
+
+		link = link.data(links);
+		link.exit().remove();
+		link = link.enter().append("line").merge(link);
+
+		simulation.nodes(nodes)
+		simulation.force("link", d3.forceLink(links).id(function(d) { return d.geoName }).links(links));
+		simulation.restart()
+	}
+
+
+
+	function addChildrenNodes(data) {
+		if (data.children.length === 0) {
+			return
+		} else {
+			let parent = data;
+
+			let childNodes = data.children.map(item => {
+				nodes.push(item);
+				links.push({source: parent, target: item})
+				restart()
+			})
+		}
+	}
+
 
 
 	function ticked() {
@@ -70,5 +104,4 @@ export async function createFramework() {
 			.attr("cx", function(d) { return d.x })
 			.attr("cy", function(d) { return d.y })
 	}
-
 }
