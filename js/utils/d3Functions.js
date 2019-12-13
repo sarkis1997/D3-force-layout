@@ -12,6 +12,7 @@ export async function createFramework() {
 	dataComplete.children[0].map(item => { nodes.push((item)) });
 	let links = [];
 
+
 	let simulation = d3.forceSimulation();
 
 	let svg = d3.select('svg')
@@ -39,15 +40,18 @@ export async function createFramework() {
 	restart();
 
 	function restart() {
-		links.push(
-			{ source: "startPoint", target: "Oceanen" },
-			{ source: "startPoint", target: "Antarctica" },
-			{ source: "startPoint", target: "Eurazië" },
-			{ source: "startPoint", target: "Amerika" },
-			{ source: "startPoint", target: "Azië" },
-			{ source: "startPoint", target: "Afrika" },
-			{ source: "startPoint", target: "Oceanië" }
-		);
+
+		if (links.length === 0) {
+			links.push(
+				{source: "startPoint", target: "Oceanen"},
+				{source: "startPoint", target: "Antarctica"},
+				{source: "startPoint", target: "Eurazië"},
+				{source: "startPoint", target: "Amerika"},
+				{source: "startPoint", target: "Azië"},
+				{source: "startPoint", target: "Afrika"},
+				{source: "startPoint", target: "Oceanië"}
+			)
+		}
 
 		node = node.data(nodes, function(d) { return d.geoName });
 		node.exit().remove();
@@ -73,7 +77,7 @@ export async function createFramework() {
 			.force("center", d3.forceCenter(width / 2, height / 2))
 			.alphaTarget(1)
 			.on("tick", ticked);
-		simulation.restart()
+
 	}
 
 
@@ -83,12 +87,14 @@ export async function createFramework() {
 			return
 		} else {
 			let parent = data;
+			console.log(data)
 
 			let childNodes = data.children.map(item => {
 				nodes.push(item);
 				links.push({source: parent, target: item});
-				restart()
-			})
+			});
+			console.log(links)
+			restart()
 		}
 	}
 
