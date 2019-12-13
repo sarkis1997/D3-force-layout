@@ -11,17 +11,8 @@ export async function createFramework() {
 	let nodes = [dataComplete];
 	dataComplete.children[0].map(item => { nodes.push((item)) });
 	let links = [];
-	console.log(nodes);
 
-
-	let simulation = d3.forceSimulation()
-		.force("charge", d3.forceManyBody().strength(-30))
-		.force("link", d3.forceLink(links).id(function(d) { return d.geoName }).distance(100))
-		.force("center", d3.forceCenter(width / 2, height / 2))
-		.force("x", d3.forceX())
-		.force("y", d3.forceY())
-		.alphaTarget(1)
-		.on("tick", ticked);
+	let simulation = d3.forceSimulation();
 
 	let svg = d3.select('svg')
 		.attr('width', width)
@@ -31,13 +22,19 @@ export async function createFramework() {
 	let link = svg
 		.append('g')
 		.attr('class', 'linkGroup')
-		.attr("stroke", "#000").attr("stroke-width", 1.5)
+		.attr("stroke", "orange").attr("stroke-width", 1)
 		.selectAll('.link');
 
 	let node = svg
 		.append('g')
 		.attr('class', 'nodeGroup')
+		.attr("stroke", "blue").attr("stroke-width", 1)
 		.selectAll('.node');
+
+	let div = d3.select('body').append('div')
+		.attr('class', 'tooltip')
+		.style('opacity', 0);
+
 
 	restart();
 
@@ -71,21 +68,25 @@ export async function createFramework() {
 		link = link.enter().append("line").merge(link);
 
 		simulation.nodes(nodes)
-		simulation.force("link", d3.forceLink(links).id(function(d) { return d.geoName }).links(links));
+		simulation.force("link", d3.forceLink(links).id(function(d) { return d.geoName }).distance(100).strength(1));
+		simulation.force("charge", d3.forceManyBody().strength(-30))
+			.force("center", d3.forceCenter(width / 2, height / 2))
+			.alphaTarget(1)
+			.on("tick", ticked);
 		simulation.restart()
 	}
 
 
-
 	function addChildrenNodes(data) {
 		if (data.children.length === 0) {
+			console.log('no children');
 			return
 		} else {
 			let parent = data;
 
 			let childNodes = data.children.map(item => {
 				nodes.push(item);
-				links.push({source: parent, target: item})
+				links.push({source: parent, target: item});
 				restart()
 			})
 		}
