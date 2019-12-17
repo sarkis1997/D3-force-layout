@@ -40,7 +40,6 @@ export async function createFramework() {
 	restart();
 
 	function restart() {
-		console.log(nodes);
 
 		if (links.length === 0) {
 			links.push(
@@ -54,12 +53,17 @@ export async function createFramework() {
 			)
 		}
 
+		let dataqty = nodes.map(item => { return item.qty });
+		let radiusScale = d3.scaleSqrt().domain([d3.min(dataqty), d3.max(dataqty)]).range([1, 10]);
+
 		node = node.data(nodes, function(d) { return d.geoName });
 		node.exit().remove();
 		node = node.enter().append('circle')
 			.attr('r', function(d) {
 				if (d.geoName === 'startPoint') { return 5 }
-				else { return 10 }
+				else { return 20
+					//return radiusScale(d.qty)
+					}
 			})
 			.attr('fill', function (d) {
 				return changeColorOnQtyCircle(d.qty)
@@ -139,4 +143,24 @@ export async function createFramework() {
 			.attr("cx", function(d) { return d.x })
 			.attr("cy", function(d) { return d.y })
 	}
+
+	//reset function
+	document.getElementById('reset').onclick = function () {
+		nodes = [dataComplete];
+		dataComplete.children[0].map(item => { nodes.push((item)) });
+
+		links = [];
+		links.push(
+			{source: "startPoint", target: "Oceanen"},
+			{source: "startPoint", target: "Antarctica"},
+			{source: "startPoint", target: "Eurazië"},
+			{source: "startPoint", target: "Amerika"},
+			{source: "startPoint", target: "Azië"},
+			{source: "startPoint", target: "Afrika"},
+			{source: "startPoint", target: "Oceanië"}
+			)
+
+		restart()
+	}
+
 }
