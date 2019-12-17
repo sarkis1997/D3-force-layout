@@ -4,14 +4,23 @@ import { makeQuery, URI, url_NMVW07 } from "./queries.js";
 
 export async function createFramework() {
 	let data = await createDataSet(url_NMVW07, makeQuery(URI));
-	let dataComplete = [{geoName: 'startPoint', children: data}][0];
+	let dataComplete = [{geoName: 'startPoint', children: data, qty: 0}][0];
 	let width = 800;
 	let height = 500;
-
 
 	let nodes = [dataComplete];
 	dataComplete.children[0].map(item => { nodes.push((item)) });
 	let links = [];
+
+	//calculating the total objects and setting its value to startpoint
+	let objectsAmount = nodes.map(item => {return Number(item.qty)});
+	let objectsSum = function (array) {
+		return array.reduce(function (a, b) {
+			return a + b;
+		})
+	};
+	dataComplete.qty = objectsSum(objectsAmount);
+
 
 	let simulation = d3.forceSimulation();
 
@@ -32,11 +41,6 @@ export async function createFramework() {
 		.attr("stroke", "blue").attr("stroke-width", 1)
 		.selectAll('.node');
 
-	let div = d3.select('body').append('div')
-		.attr('class', 'tooltip')
-		.style('opacity', 0);
-
-
 	restart();
 
 	function restart() {
@@ -53,20 +57,25 @@ export async function createFramework() {
 			)
 		}
 
-		let dataqty = nodes.map(item => { return item.qty });
-		let radiusScale = d3.scaleSqrt().domain([d3.min(dataqty), d3.max(dataqty)]).range([1, 10]);
+	//	let dataqty = nodes.map(item => { return item.qty });
+	//	let radiusScale = d3.scaleSqrt().domain([d3.min(dataqty), d3.max(dataqty)]).range([1, 10]);
+
 		let tooltip = d3.select("body").append("div")
 			.attr("class", "tooltip")
 			.style("opacity", 0);
 
 		node = node.data(nodes, function(d) { return d.geoName });
 		node.exit().remove();
-		node = node.enter().append('circle')
+		node = node.enter()
+			.append('circle')
 			.attr('r', function(d) {
-				if (d.geoName === 'startPoint') { return 5 }
-				else { return 20
-					//return radiusScale(d.qty)
-					}
+				if (d.geoName === 'startPoint') { return 50 }
+				else if (d.qty <= 1000 ) { return 5 }
+				else if (d.qty > 1000 && d.qty <= 50000) { return 15 }
+				else if (d.qty > 50000 && d.qty <= 100000) { return 25 }
+				else if (d.qty > 100000 && d.qty <= 300000) { return 35 }
+				else if (d.qty >= 300000) { return 45 }
+
 			})
 			.attr('fill', function (d) {
 				return changeColorOnQtyCircle(d.qty)
@@ -74,17 +83,19 @@ export async function createFramework() {
 			.on('click', function(d) {
 				if ( d.geoName === 'startPoint' ) { return }
 				else if( d.clicked === true ) {
-					removeLinks(d)
+					removeLinks(d);
 					d.clicked = false
 				}
 				else {
 					addChildrenNodes(d) }
 			})
 			.on("mouseover", function(d) {
-				tooltip.transition()
+				tooltip
+					.transition()
 					.duration(200)
 					.style("opacity", .9);
-				tooltip	.html(d.geoName + "<br/>"  + d.qty)
+				tooltip
+					.html(d.geoName + "<br/>"  + d.qty)
 					.style("left", (d3.event.pageX) + "px")
 					.style("top", (d3.event.pageY - 28) + "px");
 			})
@@ -94,6 +105,7 @@ export async function createFramework() {
 					.style("opacity", 0);
 			})
 			.merge(node);
+
 
 		link = link.data(links);
 		link.exit().remove();
@@ -174,7 +186,7 @@ export async function createFramework() {
 			{source: "startPoint", target: "Azië"},
 			{source: "startPoint", target: "Afrika"},
 			{source: "startPoint", target: "Oceanië"}
-			)
+			);
 
 		restart()
 	}
