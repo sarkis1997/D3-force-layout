@@ -93,8 +93,20 @@ div.tooltip {
     pointer-events: none;
 }
 header {
+    display: grid;
+    grid-template-columns: 30% 70%;
     border-bottom: 3px solid #003b51;
 }
+.logoContainer {
+    grid-column: 1;
+    grid-row: 1;
+    margin: auto;
+}
+
+.logo {
+    height: 6em;
+}
+
 .sidebarRight {
     border-left: 3px solid #003b51;
     display: flex;
@@ -109,6 +121,8 @@ header {
 }
 
 .title {
+    grid-column: 1/3;
+    grid-row: 1;
     text-align: center;
     font-size: 2.5em;
     font-weight: 700;
