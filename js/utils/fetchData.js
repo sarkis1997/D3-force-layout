@@ -18,10 +18,13 @@ export function mapData(url, query) {
 						let geoName = item.herkomstSuperLabel.value;
 						let geoURI = item.herkomstSuper.value;
 						let qty = item.choCount.value;
+						let clicked= item.clicked;
+						clicked = false;
 						return {
 							geoName,
 							geoURI,
-							qty
+							qty,
+							clicked
 						}
 					}
 					)

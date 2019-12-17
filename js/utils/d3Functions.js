@@ -8,10 +8,10 @@ export async function createFramework() {
 	let width = 800;
 	let height = 500;
 
+
 	let nodes = [dataComplete];
 	dataComplete.children[0].map(item => { nodes.push((item)) });
 	let links = [];
-
 
 	let simulation = d3.forceSimulation();
 
@@ -62,14 +62,19 @@ export async function createFramework() {
 			})
 			.attr('fill', 'orange')
 			.on('click', function(d) {
-				if (d.geoName === 'startPoint') { return }
-				else { addChildrenNodes(d) }
+				if ( d.geoName === 'startPoint' ) { return }
+				else if( d.clicked === true ) {
+					removeLinks(d)
+				}
+				else {
+					console.log(d); addChildrenNodes(d) }
 			})
 			.merge(node);
 
 		link = link.data(links);
 		link.exit().remove();
 		link = link.enter().append("line").merge(link);
+// merging local variable link with array, with the global variable link array, so creating 1 array.
 
 		simulation.nodes(nodes)
 		simulation.force("link", d3.forceLink(links).id(function(d) { return d.geoName }).distance(100).strength(1));
@@ -80,20 +85,38 @@ export async function createFramework() {
 
 	}
 
+	function removeLinks(x) {
+		let result = [];
+		x.children.map(item => { result.push(item.geoName) });
+
+		node
+			.data(nodes.filter(function(nodies) {
+				// hier moet ik de node nog filteren uit alle nodes
+			}))
+			.exit().remove();
+		link
+			.data(links.filter(function(linkies) {
+				return linkies.source.geoName !== x.geoName}))
+			.exit().remove();
+		restart()
+	}
+
 
 	function addChildrenNodes(data) {
 		if (data.children.length === 0) {
 			console.log('no children');
 			return
 		} else {
+			data.clicked = true;
 			let parent = data;
 			console.log(data)
+			console.log(links)
 
 			let childNodes = data.children.map(item => {
 				nodes.push(item);
 				links.push({source: parent, target: item});
 			});
-			console.log(links)
+
 			restart()
 		}
 	}
