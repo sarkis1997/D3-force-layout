@@ -4,7 +4,6 @@
     <list default="true" id="10460771-a548-4b05-a56c-60a8a5c7fcee" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/utils/d3Functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/utils/d3Functions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/utils/fetchData.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/utils/fetchData.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,7 +49,8 @@
       <workItem from="1576240143416" duration="724000" />
       <workItem from="1576263418905" duration="2345000" />
       <workItem from="1576535070990" duration="3860000" />
-      <workItem from="1576539514188" duration="7872000" />
+      <workItem from="1576539514188" duration="13001000" />
+      <workItem from="1576593267702" duration="837000" />
     </task>
     <servers />
   </component>

@@ -40,6 +40,7 @@ export async function createFramework() {
 	restart();
 
 	function restart() {
+		console.log(nodes);
 
 		if (links.length === 0) {
 			links.push(
@@ -65,9 +66,10 @@ export async function createFramework() {
 				if ( d.geoName === 'startPoint' ) { return }
 				else if( d.clicked === true ) {
 					removeLinks(d)
+					d.clicked = false
 				}
 				else {
-					console.log(d); addChildrenNodes(d) }
+					addChildrenNodes(d) }
 			})
 			.merge(node);
 
@@ -89,11 +91,14 @@ export async function createFramework() {
 		let result = [];
 		x.children.map(item => { result.push(item.geoName) });
 
+		//node filter part is buggy
 		node
-			.data(nodes.filter(function(nodies) {
-				// hier moet ik de node nog filteren uit alle nodes
-			}))
+			.data(nodes.filter(function (eachNode) {
+				return eachNode !== function() {result.forEach(item => {return item})}
+				}))
+
 			.exit().remove();
+
 		link
 			.data(links.filter(function(linkies) {
 				return linkies.source.geoName !== x.geoName}))
@@ -109,10 +114,8 @@ export async function createFramework() {
 		} else {
 			data.clicked = true;
 			let parent = data;
-			console.log(data)
-			console.log(links)
 
-			let childNodes = data.children.map(item => {
+			let childNodes = data.children.forEach(item => {
 				nodes.push(item);
 				links.push({source: parent, target: item});
 			});
