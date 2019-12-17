@@ -1,10 +1,17 @@
+body {
+    font-family: Frutiger;
+    margin: 0;
+}
+
 svg {
     overflow: inherit;
+    width: 100%;
 }
 
 #layOut {
     display: grid;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 70% 30%;
+    border-bottom: 3px solid #003b51;
 }
 
 .sidebar {
@@ -16,45 +23,63 @@ svg {
 
 
 .legenda {
-    padding: 5em 0 0 0;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
+    padding: 1em 0;
+    margin-left: 2em;
     width: max-content;
 }
 
-.legenda > div {
+.declare {
+    margin-left: 0.5em;
     width: 8em;
+    min-width: fit-content;
     height: 4em;
-    text-align: center;
     line-height: 4;
-    margin: 0 0.5em;
+    font-weight: 500;
 }
 
-.legenda > div > span {
+.legStart {
+    display: flex;
+}
+
+.objectLegenda {
+
+    margin: 3em 0 1em 0;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.legBlock {
+    min-width: 10em;
+    height: 4em;
+    margin: 0.2em 0;
+}
+
+.declare {
     background-color: rgba(255, 255, 255, 0.5);
     padding: 3px;
 }
 
-.legenda > div:nth-of-type(1) {
-    background: #c74032;
+.leg1 {
+    background: #60d5c3;
 }
-.legenda > div:nth-of-type(2) {
-    background: #e4744f;
+.leg2 {
+    background: #46b9b6;
 }
-.legenda > div:nth-of-type(3) {
-    background: #fae096;
+.leg3 {
+    background: #2794a8;
 }
-.legenda > div:nth-of-type(4) {
-    background: #b1d678;
+.leg4 {
+    background: #0e6e8a;
 }
-.legenda > div:nth-of-type(5) {
-    background: #489558;
+.leg5 {
+    background: #003b51;
 }
 
-.link {
-    stroke: red;
+.leg6 {
+    background: orange;
 }
+
+
 
 div.tooltip {
     position: absolute;
@@ -66,4 +91,43 @@ div.tooltip {
     border: 1px solid #000;
     border-radius: 2px;
     pointer-events: none;
+}
+header {
+    border-bottom: 3px solid #003b51;
+}
+.sidebarRight {
+    border-left: 3px solid #003b51;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.buttonHolder {
+    background-color: #003b51;
+    margin-top: 1em;
+    padding: 3em 0;
+    border-top: 3px solid #003b51;
+}
+
+.title {
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: 700;
+    margin: 1em 0;
+}
+
+#reset{
+    display: block;
+    margin: 0 auto;
+    padding: 1em 2em;
+    border: 0.1em solid #003b51;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 1em;
+    transition: 0.15s;
+
+}
+#reset:hover{
+    cursor: pointer;
+    background-color: red;
+    color: #ffffff;
 }

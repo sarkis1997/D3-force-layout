@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,18 +15,57 @@
 
     <script type="module"> import "./js/app.js" </script>
 
+    <header>
+        <div class="logoContainer">
+            <img src="" alt="">
+        </div>
+        <div class="title">
+            NMVW distribution key explorer
+        </div>
+    </header>
     <div id="layOut">
-
         <div class="visualisation">
-            <div class="legenda">
-                <div class="leg1"><span>< 1.000</span></div>
-                <div class="leg2"><span>1.000 - 50.000</span></div>
-                <div class="leg3"><span>50.001 - 100.000</span></div>
-                <div class="leg4"><span>100.001 - 300.000</span></div>
-                <div class="leg5"><span>> 300.001 </span></div>
-            </div>
-            <button id="reset">Reset</button>
             <svg></svg>
+        </div>
+        <div class="sidebarRight">
+            <div class="legenda">
+                <h1>Legenda</h1>
+                <div class="legStart">
+                    <div class="legBlock leg6"></div>
+                    <div class="declare"> Starting point collection </div>
+                </div>
+
+                <div class="objectLegenda">Object amount per geolocation</div>
+
+                <div class="legStart">
+                    <div class="legBlock leg5"></div>
+                    <div class="declare"> > 300.001 </div>
+                </div>
+
+                <div class="legStart">
+                    <div class="legBlock leg4"></div>
+                    <div class="declare"> 100.001 - 300.000 </div>
+                </div>
+
+                <div class="legStart">
+                    <div class="legBlock leg3"></div>
+                    <div class="declare"> 50.001 - 100.000 </div>
+                </div>
+
+                <div class="legStart">
+                    <div class="legBlock leg2"></div>
+                    <div class="declare"> 1.000 - 50.000 </div>
+                </div>
+
+                <div class="legStart">
+                    <div class="legBlock leg1"></div>
+                    <div class="declare"> < 1.000 </div>
+                </div>
+
+            </div>
+            <div class="buttonHolder">
+                <button id="reset">Reset visualisation</button>
+            </div>
         </div>
     </div>
 

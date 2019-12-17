@@ -5,8 +5,8 @@ import { makeQuery, URI, url_NMVW07 } from "./queries.js";
 export async function createFramework() {
 	let data = await createDataSet(url_NMVW07, makeQuery(URI));
 	let dataComplete = [{geoName: 'startPoint', children: data, qty: 0}][0];
-	let width = 800;
-	let height = 500;
+	let width = 1000;
+	let height = 800;
 
 	let nodes = [dataComplete];
 	dataComplete.children[0].map(item => { nodes.push((item)) });
@@ -32,19 +32,19 @@ export async function createFramework() {
 	let link = svg
 		.append('g')
 		.attr('class', 'linkGroup')
-		.attr("stroke", "orange").attr("stroke-width", 1)
+		.attr("stroke", "black").attr("stroke-width", 1)
 		.selectAll('.link');
 
 	let node = svg
 		.append('g')
 		.attr('class', 'nodeGroup')
-		.attr("stroke", "blue").attr("stroke-width", 1)
+		.attr("stroke", "black").attr("stroke-width", 1)
 		.selectAll('.node');
 
 	restart();
 
 	function restart() {
-
+		console.log(nodes)
 		if (links.length === 0) {
 			links.push(
 				{source: "startPoint", target: "Oceanen"},
@@ -69,16 +69,20 @@ export async function createFramework() {
 		node = node.enter()
 			.append('circle')
 			.attr('r', function(d) {
-				if (d.geoName === 'startPoint') { return 50 }
+				if (d.geoName === 'startPoint') { return 5 }
 				else if (d.qty <= 1000 ) { return 5 }
-				else if (d.qty > 1000 && d.qty <= 50000) { return 15 }
-				else if (d.qty > 50000 && d.qty <= 100000) { return 25 }
-				else if (d.qty > 100000 && d.qty <= 300000) { return 35 }
-				else if (d.qty >= 300000) { return 45 }
+				else if (d.qty > 1000 && d.qty <= 50000) { return 10 }
+				else if (d.qty > 50000 && d.qty <= 100000) { return 20 }
+				else if (d.qty > 100000 && d.qty <= 300000) { return 30 }
+				else if (d.qty >= 300000) { return 40 }
 
 			})
 			.attr('fill', function (d) {
-				return changeColorOnQtyCircle(d.qty)
+				if (d.geoName === 'startPoint') {
+					return 'orange'
+				} else {
+					return changeColorOnQtyCircle(d.qty)
+				}
 			})
 			.on('click', function(d) {
 				if ( d.geoName === 'startPoint' ) { return }
@@ -97,7 +101,7 @@ export async function createFramework() {
 				tooltip
 					.html(d.geoName + "<br/>"  + d.qty)
 					.style("left", (d3.event.pageX) + "px")
-					.style("top", (d3.event.pageY - 28) + "px");
+					.style("top", (d3.event.pageY - 30) + "px");
 			})
 			.on("mouseout", function(d) {
 				tooltip.transition()
@@ -143,7 +147,7 @@ export async function createFramework() {
 
 	function addChildrenNodes(data) {
 		if (data.children.length === 0) {
-			console.log('no children');
+			alert("This geolocation doesn't have nested geolocations.");
 			return
 		} else {
 			data.clicked = true;
