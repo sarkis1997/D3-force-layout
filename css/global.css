@@ -14,6 +14,14 @@ svg {
     border-bottom: 3px solid #003b51;
 }
 
+.legHeaderContainer {
+    border-bottom: 1.5px solid #003b51;
+}
+.legHeaderContainer h1 {
+    text-align: center;
+    margin: 0.5em 0;
+}
+
 .sidebar {
     grid-column: 2;
     background: red;
@@ -21,62 +29,84 @@ svg {
     padding: 3em;
 }
 
-
 .legenda {
-    padding: 1em 0;
-    margin-left: 2em;
-    width: max-content;
+    width: 100%
 }
+
 
 .declare {
     margin-left: 0.5em;
     width: 8em;
     min-width: fit-content;
     height: 4em;
-    line-height: 4;
+    /*line-height: 4;*/
     font-weight: 500;
 }
 
-.legStart {
-    display: flex;
+.legContainer {
+    display: grid;
+    grid-template-columns: 32% 68%;
+    margin: 1em 0;
 }
 
 .objectLegenda {
-
-    margin: 3em 0 1em 0;
+    margin: 3em 0 1em 1em;
     font-size: 1.2em;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .legBlock {
-    min-width: 10em;
-    height: 4em;
-    margin: 0.2em 0;
+    margin: auto;
 }
 
 .declare {
+    height: fit-content;
+    margin: auto 0;
     background-color: rgba(255, 255, 255, 0.5);
     padding: 3px;
 }
 
 .leg1 {
+    width: 0.7em;
+    height: 0.7em;
+    border-radius: 100px;
+    border: 1px solid #000000;
     background: #60d5c3;
 }
 .leg2 {
+    width: 1.1em;
+    height: 1.1em;
+    border-radius: 100px;
+    border: 1px solid #000000;
     background: #46b9b6;
 }
 .leg3 {
+    width: 2.3em;
+    height: 2.3em;
+    border-radius: 100px;
+    border: 1px solid #000000;
     background: #2794a8;
 }
 .leg4 {
+    width: 3.3em;
+    height: 3.3em;
+    border-radius: 100px;
+    border: 1px solid #000000;
     background: #0e6e8a;
 }
 .leg5 {
+    width: 4.5em;
+    height: 4.5em;
+    border-radius: 100px;
+    border: 1px solid #000000;
     background: #003b51;
 }
 
 .leg6 {
     background: orange;
+    width: 3em;
+    height: 3em;
+    border-radius: 100px;
 }
 
 
@@ -124,7 +154,7 @@ header {
     grid-column: 1/3;
     grid-row: 1;
     text-align: center;
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: 700;
     margin: 1em 0;
 }
