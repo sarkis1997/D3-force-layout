@@ -6,7 +6,7 @@ export async function createFramework() {
 	let data = await createDataSet(url_NMVW07, makeQuery(URI));
 	let dataComplete = [{geoName: 'startPoint', children: data, qty: 0}][0];
 	let width = 1000;
-	let height = 800;
+	let height = 700;
 
 	let nodes = [dataComplete];
 	dataComplete.children[0].map(item => { nodes.push((item)) });
