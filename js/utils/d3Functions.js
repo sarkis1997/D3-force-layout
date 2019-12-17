@@ -61,7 +61,9 @@ export async function createFramework() {
 				if (d.geoName === 'startPoint') { return 5 }
 				else { return 10 }
 			})
-			.attr('fill', 'orange')
+			.attr('fill', function (d) {
+				return changeColorOnQtyCircle(d.qty)
+			})
 			.on('click', function(d) {
 				if ( d.geoName === 'startPoint' ) { return }
 				else if( d.clicked === true ) {
