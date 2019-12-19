@@ -27,7 +27,7 @@ export async function createFramework() {
 	let svg = d3.select('svg')
 		.attr('width', width)
 		.attr('height', height)
-		.attr('class', 'frame');
+		.attr('class', 'frame')
 
 	let link = svg
 		.append('g')
@@ -117,9 +117,10 @@ export async function createFramework() {
 // merging local variable link with array, with the global variable link array, so creating 1 array.
 
 		simulation.nodes(nodes)
-		simulation.force("link", d3.forceLink(links).id(function(d) { return d.geoName }).distance(100).strength(1));
+		simulation.force("link", d3.forceLink(links).id(function(d) { return d.geoName }).distance(100).gstrength(1));
 		simulation.force("charge", d3.forceManyBody().strength(-30))
-		//	.force("center", d3.forceCenter(width / 2, height / 2))
+			.force("center", d3.forceCenter(width / 2, height / 2))
+			.velocityDecay(0.4)
 			.alphaTarget(1)
 			.on("tick", ticked);
 
@@ -154,8 +155,6 @@ export async function createFramework() {
 						links.splice(i, 1)
 					}
 				});
-
-
 			});
 
 			node = node.data(nodes)
