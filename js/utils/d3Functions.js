@@ -126,7 +126,6 @@ export async function createFramework() {
 	}
 
 	function update(x) {
-		console.log(x)
 		const oldNodes = nodes;
 		const oldLinks = links;
 
@@ -141,15 +140,23 @@ export async function createFramework() {
 				nodesToFilter.push(child.geoName)
 			});
 
-			console.log(nodesToFilter)
-
 			nodes.forEach(function (d, i) {
 				x.children.map(child => {
 					if(d.geoName === child.geoName) {
-						nodes.splice(i, x.children.length)
+						console.log(links)
+						nodes.splice(i, x.children.length )
+						links.splice(i, x.children.length)
 					}
-				})
-			})
+				});
+
+				links.forEach(function (item, i) {
+					if (links[i].hasOwnProperty('source') && links[i].source.geoName === x.geoName) {
+						links.splice(i, 1)
+					}
+				});
+
+
+			});
 
 			node = node.data(nodes)
 			node.exit().remove();
