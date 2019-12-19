@@ -41,6 +41,10 @@ export async function createFramework() {
 		.attr("stroke", "black").attr("stroke-width", 1)
 		.selectAll('.node');
 
+	let tooltip = d3.select("body").append("div")
+		.attr("class", "tooltip")
+		.style("opacity", 0);
+
 	restart();
 
 	function restart() {
@@ -58,10 +62,6 @@ export async function createFramework() {
 
 	//	let dataqty = nodes.map(item => { return item.qty });
 	//	let radiusScale = d3.scaleSqrt().domain([d3.min(dataqty), d3.max(dataqty)]).range([1, 10]);
-
-		let tooltip = d3.select("body").append("div")
-			.attr("class", "tooltip")
-			.style("opacity", 0);
 
 		node = node.data(nodes, function(d) { return d.geoName });
 		node.exit().remove();
@@ -117,10 +117,11 @@ export async function createFramework() {
 // merging local variable link with array, with the global variable link array, so creating 1 array.
 
 		simulation.nodes(nodes)
-		simulation.force("link", d3.forceLink(links).id(function(d) { return d.geoName }).distance(100).gstrength(1));
+		simulation.force("link", d3.forceLink(links).id(function(d) { return d.geoName }).distance(100).strength(1));
 		simulation.force("charge", d3.forceManyBody().strength(-30))
 			.force("center", d3.forceCenter(width / 2, height / 2))
 			.velocityDecay(0.4)
+			.force("collide",d3.forceCollide( function(d){return d.r + 8 }).iterations(16) )
 			.alphaTarget(1)
 			.on("tick", ticked);
 
