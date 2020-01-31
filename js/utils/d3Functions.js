@@ -19,6 +19,7 @@ export async function createFramework() {
 			return a + b;
 		})
 	};
+
 	dataComplete.qty = objectsSum(objectsAmount);
 
 
@@ -128,26 +129,18 @@ export async function createFramework() {
 	}
 
 	function update(x) {
-		const oldNodes = nodes;
-		const oldLinks = links;
-
 		if (x.clicked === false) {
+			x.clicked = true;
 			addChildrenNodes(x)
 		}
 		else if (x.clicked === true) {
 			x.clicked = false;
 
-			let nodesToFilter = [];
-			x.children.map(child => {
-				nodesToFilter.push(child.geoName)
-			});
-
 			nodes.forEach(function (d, i) {
 				x.children.map(child => {
 					if(d.geoName === child.geoName) {
-						console.log(links)
-						nodes.splice(i, x.children.length )
-						links.splice(i, x.children.length)
+						nodes.splice(i, x.children.length);
+						links.splice(i, x.children.length);
 					}
 				});
 
@@ -223,7 +216,6 @@ export async function createFramework() {
 			alert("This geolocation doesn't have nested geolocations.");
 			return
 		} else {
-			data.clicked = true;
 			let parent = data;
 
 			let childNodes = data.children.forEach(item => {
@@ -268,7 +260,8 @@ export async function createFramework() {
 	}
 
 	//reset function
-	document.getElementById('reset').onclick = function () {
+	d3.select('#reset')
+		.on('click', () => {
 		nodes = [dataComplete];
 		dataComplete.children[0].map(item => { nodes.push((item)) });
 
@@ -284,6 +277,6 @@ export async function createFramework() {
 			);
 
 		restart()
-	}
+	})
 
 }
